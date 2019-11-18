@@ -3,8 +3,11 @@ package minesweeper;
 public class MineSweeper {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		//SOMETHING FUN!
+		Board myBoard = new Board(Difficulty.HARD);
+		
+		System.out.println(myBoard);
+		
+		myBoard.mineArr.forEach((n) -> System.out.println(n));
 
 	}
 
