@@ -1,22 +1,27 @@
 package minesweeper;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
+import java.util.ArrayList;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
 
-public class GameUi extends JFrame {
+//implements ActionListener
+public class GameUi extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
-
-	/**
-	 * Launch the application.
-	 */
+	ArrayList<JButton> btnArr = new ArrayList<JButton>();
+	JButton btn;
+	
+	//Launch the application
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -30,9 +35,7 @@ public class GameUi extends JFrame {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
+	//Create the frame
 	public GameUi() {
 		setTitle("Minesweeper");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,20 +45,31 @@ public class GameUi extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new GridLayout(10, 10, 0, 0)); //grid size
 		
-	/**
-	 * Create 100 buttons
-	 */
-		int count = 0;
-		count++;
 		
-		if (count < 2) {
-		JButton one = new JButton("");
-		contentPane.add(one);
+	//Create spacing at the top for additional game functions
+		JLabel lblTimerReset = new JLabel("Timer/Reset");
+		contentPane.add(lblTimerReset);
+	
+		
+	 //Create 100 buttons
+
+		for (int i = 0; i < 100; i++) {
+			btnArr.add(new JButton(""));			
 		}
 		
-		/*do {
-			//create new button
-		} while(count < 3);*/
+		for (int j = 0; j < btnArr.size(); j++) {
+			JButton b = btnArr.get(j); 
+			b.setName("btn" + j); //names the button
+			b.addActionListener(this);
+			contentPane.add(b);	
+				
+		}
+			
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		System.out.println("The button has been clicked.");
 	}
 
 }
