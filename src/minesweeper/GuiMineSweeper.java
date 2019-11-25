@@ -9,6 +9,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -88,6 +90,14 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 		JPanel controlPanel = new JPanel();
 		
 		JButton btnResetGame = new JButton("Reset Game");
+		btnResetGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				System.out.println("The game is reset"); //CHANGE for reseting the game
+				
+			}
+		});
+	
 		controlPanel.add(btnResetGame);
 		return controlPanel;
 	}
