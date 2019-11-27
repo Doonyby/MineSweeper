@@ -8,13 +8,12 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridLayout;
 import java.util.ArrayList;
-import javax.swing.JTextField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
 
-//implements ActionListener
+//implement ActionListener
+@SuppressWarnings("serial")
 public class GameUi extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
@@ -43,13 +42,7 @@ public class GameUi extends JFrame implements ActionListener{
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new GridLayout(10, 10, 0, 0)); //grid size
-		
-		
-	//Create spacing at the top for additional game functions
-		JLabel lblTimerReset = new JLabel("Timer/Reset");
-		contentPane.add(lblTimerReset);
-	
+		contentPane.setLayout(new GridLayout(10, 10, 0, 0));
 		
 	 //Create 100 buttons
 
