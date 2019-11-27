@@ -2,8 +2,10 @@ package minesweeper;
 
 import java.util.ArrayList;
 
-public class Board extends Game {
+import javax.swing.JLabel;
 
+public class Board extends Game {
+	
 	ArrayList<Mine> mineArr = new ArrayList<Mine>();
 	int difficultyNumber;
 	int numberOfBombs;
@@ -29,38 +31,71 @@ public class Board extends Game {
 			break;
 		}
 		for(int i=0; i < difficultyNumber; i++) {
-			mineArr.add(new Mine(i, false, 0, false));
+			mineArr.add(new Mine(i, false, 0, false, false));
 		}
-		
 	}
 	
 	public void buildBoard() {
 		System.out.println("Building board");
 		for(int i = 0; i < difficultyNumber; i++) {
 			if(mineArr.get(i).isBomb()) {
-				if((i+1) < difficultyNumber) {
-					mineArr.get(i+1).setBombTouchCount(mineArr.get(i+1).getBombTouchCount() + 1);
-				}
-				if((i-1) >= 0) {
-					mineArr.get(i-1).setBombTouchCount(mineArr.get(i-1).getBombTouchCount() + 1);
-				}
-				if((i+10) < difficultyNumber) {
-					mineArr.get(i+10).setBombTouchCount(mineArr.get(i+10).getBombTouchCount() + 1);
-				}
-				if((i-10) >= 0) {
-					mineArr.get(i-10).setBombTouchCount(mineArr.get(i-10).getBombTouchCount() + 1);
-				}
-				if((i+10+1) < difficultyNumber) {
-					mineArr.get(i+10+1).setBombTouchCount(mineArr.get(i+10+1).getBombTouchCount() + 1);
-				}
-				if((i+10-1) < difficultyNumber) {
-					mineArr.get(i+10-1).setBombTouchCount(mineArr.get(i+10-1).getBombTouchCount() + 1);
-				}
-				if((i-10+1) >= 0) {
-					mineArr.get(i-10+1).setBombTouchCount(mineArr.get(i-10+1).getBombTouchCount() + 1);
-				}
-				if((i-10-1) >= 0) {
-					mineArr.get(i-10-1).setBombTouchCount(mineArr.get(i-10-1).getBombTouchCount() + 1);
+				if(i % 10 == 0) {
+					if((i+1) < difficultyNumber) {
+						mineArr.get(i+1).setBombTouchCount(mineArr.get(i+1).getBombTouchCount() + 1);
+					}
+					if((i+10) < difficultyNumber) {
+						mineArr.get(i+10).setBombTouchCount(mineArr.get(i+10).getBombTouchCount() + 1);
+					}
+					if((i-10) >= 0) {
+						mineArr.get(i-10).setBombTouchCount(mineArr.get(i-10).getBombTouchCount() + 1);
+					}
+					if((i+10+1) < difficultyNumber) {
+						mineArr.get(i+10+1).setBombTouchCount(mineArr.get(i+10+1).getBombTouchCount() + 1);
+					}
+					if((i-10+1) >= 0) {
+						mineArr.get(i-10+1).setBombTouchCount(mineArr.get(i-10+1).getBombTouchCount() + 1);
+					}
+				} else if(i % 10 == 9) {
+					if((i-1) >= 0) {
+						mineArr.get(i-1).setBombTouchCount(mineArr.get(i-1).getBombTouchCount() + 1);
+					}
+					if((i+10) < difficultyNumber) {
+						mineArr.get(i+10).setBombTouchCount(mineArr.get(i+10).getBombTouchCount() + 1);
+					}
+					if((i-10) >= 0) {
+						mineArr.get(i-10).setBombTouchCount(mineArr.get(i-10).getBombTouchCount() + 1);
+					}
+					if((i+10-1) < difficultyNumber) {
+						mineArr.get(i+10-1).setBombTouchCount(mineArr.get(i+10-1).getBombTouchCount() + 1);
+					}
+					if((i-10-1) >= 0) {
+						mineArr.get(i-10-1).setBombTouchCount(mineArr.get(i-10-1).getBombTouchCount() + 1);
+					}
+				} else {
+					if((i+1) < difficultyNumber) {
+						mineArr.get(i+1).setBombTouchCount(mineArr.get(i+1).getBombTouchCount() + 1);
+					}
+					if((i-1) >= 0) {
+						mineArr.get(i-1).setBombTouchCount(mineArr.get(i-1).getBombTouchCount() + 1);
+					}
+					if((i+10) < difficultyNumber) {
+						mineArr.get(i+10).setBombTouchCount(mineArr.get(i+10).getBombTouchCount() + 1);
+					}
+					if((i-10) >= 0) {
+						mineArr.get(i-10).setBombTouchCount(mineArr.get(i-10).getBombTouchCount() + 1);
+					}
+					if((i+10+1) < difficultyNumber) {
+						mineArr.get(i+10+1).setBombTouchCount(mineArr.get(i+10+1).getBombTouchCount() + 1);
+					}
+					if((i+10-1) < difficultyNumber) {
+						mineArr.get(i+10-1).setBombTouchCount(mineArr.get(i+10-1).getBombTouchCount() + 1);
+					}
+					if((i-10+1) >= 0) {
+						mineArr.get(i-10+1).setBombTouchCount(mineArr.get(i-10+1).getBombTouchCount() + 1);
+					}
+					if((i-10-1) >= 0) {
+						mineArr.get(i-10-1).setBombTouchCount(mineArr.get(i-10-1).getBombTouchCount() + 1);
+					}
 				}
 			}
 		}
