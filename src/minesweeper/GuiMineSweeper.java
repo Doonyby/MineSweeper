@@ -40,7 +40,6 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 	private JTextField Clock;
 	private JTextField Bombsleft;
 	private String mine; //??For Bomb count down
-	private Icon flagIcon;
 
 	/**
 	 * Launch the application.
