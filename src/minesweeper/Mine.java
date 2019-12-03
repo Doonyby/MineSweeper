@@ -1,5 +1,7 @@
 package minesweeper;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -11,7 +13,7 @@ public class Mine extends JButton {
 	int bombTouchCount;
 	boolean isFlagged;
 	boolean isOpen;
-	
+
 	public Mine(int id, boolean isBomb, int bombTouchCount, boolean isFlagged, boolean isOpen) {
 		mine = new JButton();
 		mine.setText("" + id);
