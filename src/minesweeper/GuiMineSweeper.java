@@ -87,6 +87,7 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 			Mine mine = myBoard.mineArr.get(j);
 			System.out.println(mine);
 			whatever.add(mine);
+			//add pre-click styles here
 			
 			mine.addMouseListener(new MouseAdapter() {
 				@Override
@@ -103,6 +104,7 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 		return whatever;
 	}
 	
+	//add post-click styles here
 	private Mine evaluateMineUi(Mine mine) {
 		if (mine.isFlagged()) {
 			mine.setText("F");

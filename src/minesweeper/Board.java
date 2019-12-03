@@ -116,136 +116,114 @@ public class Board extends Game {
 	}
 	
 	public void evaluateBoard(Mine mine) {
+		mine.setOpen(true);
+		mineArr.get(mine.getId() + 1).setOpen(true);
 		System.out.println("Evaluating board");
-		if(mine.isOpen || mine.isBomb) {
-			return;
-		}
-		
-		int i = mine.getId();
-		if(i % 10 == 0) {
-			if(mineArr.get(i+1).getBombTouchCount() == 0) {
-				mineArr.get(i+1).setOpen(true);
-				evaluateBoard(mineArr.get(i+1));
-			} else if(mineArr.get(i+1).getBombTouchCount() > 0) {
-				mineArr.get(i+1).setOpen(true);
-				return;
-			}
-			
-			if(mineArr.get(i+10).getBombTouchCount() == 0) {
-				mineArr.get(i+10).setOpen(true);
-				evaluateBoard(mineArr.get(i+10));
-			} else if(mineArr.get(i+10).getBombTouchCount() > 0) {
-				mineArr.get(i+10).setOpen(true);
-				return;
-			}
-			
-			if(mineArr.get(i-10).getBombTouchCount() == 0) {
-				mineArr.get(i-10).setOpen(true);
-				evaluateBoard(mineArr.get(i-10));
-			} else if(mineArr.get(i-10).getBombTouchCount() > 0) {
-				mineArr.get(i-10).setOpen(true);
-				return;
-			}
-			
-//			if((i+10+1) < difficultyNumber) {
-//				mineArr.get(i+10+1).setBombTouchCount(mineArr.get(i+10+1).getBombTouchCount() + 1);
+		System.out.println(mine);
+		System.out.println(mineArr.get(mine.getId() + 1));
+//		if(mine.isOpen || mine.isBomb) {
+//			return;
+//		}
+//		
+//		int i = mine.getId();
+//		if(i % 10 == 0) {
+//			if((i+1) < difficultyNumber) {
+//				if(mineArr.get(i+1).getBombTouchCount() == 0) {
+//					mineArr.get(i+1).setOpen(true);
+//					evaluateBoard(mineArr.get(i+1));
+//				} else if(mineArr.get(i+1).getBombTouchCount() > 0) {
+//					mineArr.get(i+1).setOpen(true);
+//				}
 //			}
-//			if((i-10+1) >= 0) {
-//				mineArr.get(i-10+1).setBombTouchCount(mineArr.get(i-10+1).getBombTouchCount() + 1);
+//			if((i+10) < difficultyNumber) {
+//				if(mineArr.get(i+10).getBombTouchCount() == 0) {
+//					mineArr.get(i+10).setOpen(true);
+//					evaluateBoard(mineArr.get(i+10));
+//				} else if(mineArr.get(i+10).getBombTouchCount() > 0) {
+//					mineArr.get(i+10).setOpen(true);
+//				}
 //			}
-		} else if(i % 10 == 9) {
-			if(mineArr.get(i-1).getBombTouchCount() == 0) {
-				mineArr.get(i-1).setOpen(true);
-				evaluateBoard(mineArr.get(i-1));
-			} else if(mineArr.get(i-1).getBombTouchCount() > 0) {
-				mineArr.get(i-1).setOpen(true);
-				return;
-			}
-			
-			if(mineArr.get(i+10).getBombTouchCount() == 0) {
-				mineArr.get(i+10).setOpen(true);
-				evaluateBoard(mineArr.get(i+10));
-			} else if(mineArr.get(i+10).getBombTouchCount() > 0) {
-				mineArr.get(i+10).setOpen(true);
-				return;
-			}
-			
-			if(mineArr.get(i-10).getBombTouchCount() == 0) {
-				mineArr.get(i-10).setOpen(true);
-				evaluateBoard(mineArr.get(i-10));
-			} else if(mineArr.get(i-10).getBombTouchCount() > 0) {
-				mineArr.get(i-10).setOpen(true);
-				return;
-			}
-//			if((i+10-1) < difficultyNumber) {
-//				mineArr.get(i+10-1).setBombTouchCount(mineArr.get(i+10-1).getBombTouchCount() + 1);
+//			if((i-10) >= 0) {
+//				if(mineArr.get(i-10).getBombTouchCount() == 0) {
+//					mineArr.get(i-10).setOpen(true);
+//					evaluateBoard(mineArr.get(i-10));
+//				} else if(mineArr.get(i-10).getBombTouchCount() > 0) {
+//					mineArr.get(i-10).setOpen(true);
+//				}
 //			}
-//			if((i-10-1) >= 0) {
-//				mineArr.get(i-10-1).setBombTouchCount(mineArr.get(i-10-1).getBombTouchCount() + 1);
+//		} else if(i % 10 == 9) {
+//			if((i-1) >= 0) {
+//				if(mineArr.get(i-1).getBombTouchCount() == 0) {
+//					mineArr.get(i-1).setOpen(true);
+//					evaluateBoard(mineArr.get(i-1));
+//				} else if(mineArr.get(i-1).getBombTouchCount() > 0) {
+//					mineArr.get(i-1).setOpen(true);
+//				}
 //			}
-		} else {
-			if(mineArr.get(i+1).getBombTouchCount() == 0) {
-				mineArr.get(i+1).setOpen(true);
-				evaluateBoard(mineArr.get(i+1));
-			} else if(mineArr.get(i+1).getBombTouchCount() > 0) {
-				mineArr.get(i+1).setOpen(true);
-				return;
-			}
-			
-			if(mineArr.get(i-1).getBombTouchCount() == 0) {
-				mineArr.get(i-1).setOpen(true);
-				evaluateBoard(mineArr.get(i-1));
-			} else if(mineArr.get(i-1).getBombTouchCount() > 0) {
-				mineArr.get(i-1).setOpen(true);
-				return;
-			}
-			
-			if(mineArr.get(i+10).getBombTouchCount() == 0) {
-				mineArr.get(i+10).setOpen(true);
-				evaluateBoard(mineArr.get(i+10));
-			} else if(mineArr.get(i+10).getBombTouchCount() > 0) {
-				mineArr.get(i+10).setOpen(true);
-				return;
-			}
-			
-			if(mineArr.get(i-10).getBombTouchCount() == 0) {
-				mineArr.get(i-10).setOpen(true);
-				evaluateBoard(mineArr.get(i-10));
-			} else if(mineArr.get(i-10).getBombTouchCount() > 0) {
-				mineArr.get(i-10).setOpen(true);
-				return;
-			}
-//			if((i+10+1) < difficultyNumber) {
-//				mineArr.get(i+10+1).setBombTouchCount(mineArr.get(i+10+1).getBombTouchCount() + 1);
+//			if((i+10) < difficultyNumber) {
+//				if(mineArr.get(i+10).getBombTouchCount() == 0) {
+//					mineArr.get(i+10).setOpen(true);
+//					evaluateBoard(mineArr.get(i+10));
+//				} else if(mineArr.get(i+10).getBombTouchCount() > 0) {
+//					mineArr.get(i+10).setOpen(true);
+//				}
 //			}
-//			if((i+10-1) < difficultyNumber) {
-//				mineArr.get(i+10-1).setBombTouchCount(mineArr.get(i+10-1).getBombTouchCount() + 1);
+//			if((i-10) >= 0) {
+//				if(mineArr.get(i-10).getBombTouchCount() == 0) {
+//					mineArr.get(i-10).setOpen(true);
+//					evaluateBoard(mineArr.get(i-10));
+//				} else if(mineArr.get(i-10).getBombTouchCount() > 0) {
+//					mineArr.get(i-10).setOpen(true);
+//				}
 //			}
-//			if((i-10+1) >= 0) {
-//				mineArr.get(i-10+1).setBombTouchCount(mineArr.get(i-10+1).getBombTouchCount() + 1);
+//		} else {
+//			if((i+1) < difficultyNumber) {
+//				if(mineArr.get(i+1).getBombTouchCount() == 0) {
+//					mineArr.get(i+1).setOpen(true);
+//					evaluateBoard(mineArr.get(i+1));
+//				} else if(mineArr.get(i+1).getBombTouchCount() > 0) {
+//					mineArr.get(i+1).setOpen(true);
+//				}
 //			}
-//			if((i-10-1) >= 0) {
-//				mineArr.get(i-10-1).setBombTouchCount(mineArr.get(i-10-1).getBombTouchCount() + 1);
+//			if((i-1) >= 0) {
+//				if(mineArr.get(i-1).getBombTouchCount() == 0) {
+//					mineArr.get(i-1).setOpen(true);
+//					evaluateBoard(mineArr.get(i-1));
+//				} else if(mineArr.get(i-1).getBombTouchCount() > 0) {
+//					mineArr.get(i-1).setOpen(true);
+//				}
 //			}
-		}
-		
+//			if((i+10) < difficultyNumber) {
+//				if(mineArr.get(i+10).getBombTouchCount() == 0) {
+//					mineArr.get(i+10).setOpen(true);
+//					evaluateBoard(mineArr.get(i+10));
+//				} else if(mineArr.get(i+10).getBombTouchCount() > 0) {
+//					mineArr.get(i+10).setOpen(true);
+//				}
+//			}
+//			if((i-10) >= 0) {
+//				if(mineArr.get(i-10).getBombTouchCount() == 0) {
+//					mineArr.get(i-10).setOpen(true);
+//					evaluateBoard(mineArr.get(i-10));
+//				} else if(mineArr.get(i-10).getBombTouchCount() > 0) {
+//					mineArr.get(i-10).setOpen(true);
+//				}
+//			}
+//		}
 	}
 	
 	public void onBoardChange(Mine mine) {
 		System.out.println("Changing board");
 		if(mine.isBomb) {
 			System.out.println("You lose");
-			return;
 		} else if(mine.getBombTouchCount() > 0) {
 			mine.setOpen(true);
 			System.out.println("Should be opening mine to see number");
-			return;
 		} else if(mine.getBombTouchCount() == 0) {
 			System.out.println("Evaluating board");
 			this.evaluateBoard(mine);
 		} else if(mine.isOpen) {
 			System.out.println("Already chose this mine....");
-			return;
 		}
 	}
 	
