@@ -138,8 +138,10 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 				public void mouseClicked(MouseEvent e) {
 					if(e.getButton() == 3) {
 						mine.setFlagged(!mine.isFlagged());
+						flagMine(mine);
 					} else {
 						myBoard.onBoardChange(mine);
+						checkBoardUiChanges();
 					}
 					evaluateMineUi(mine);
 				}
@@ -148,28 +150,46 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 		return whatever;
 	}
 	
-	//add post-click styles here
-	private Mine evaluateMineUi(Mine mine) {
-		if (mine.isFlagged()) {
+	private void flagMine(Mine mine) {
+		if(mine.isFlagged) {
 			mine.setText("F");
 			mine.setBackground(Color.YELLOW);
 			mine.setOpaque(true);
 			mine.setBorderPainted(false);
-		} else if(mine.isBomb) {
-			mine.setText("X");
-			mine.setBackground(Color.RED);
-			mine.setOpaque(true);
-			mine.setBorderPainted(false);
-		}  else if(mine.getBombTouchCount() > 0) {
-			mine.setText("" + mine.bombTouchCount);
-			mine.setBackground(Color.WHITE);
-			mine.setOpaque(true);
-			mine.setBorderPainted(false);
 		} else {
-			mine.setText("");
-			mine.setBackground(Color.WHITE);
-			mine.setOpaque(true);
-			mine.setBorderPainted(false);
+			mine.removeAll();
+		}
+	}
+	
+	private void checkBoardUiChanges() {
+		for (int j = 0; j < myBoard.mineArr.size(); j++) {
+			System.out.println(myBoard.mineArr.get(j));
+			evaluateMineUi(myBoard.mineArr.get(j));
+		} 
+	}
+	
+	//add post-click styles here
+	private Mine evaluateMineUi(Mine mine) {
+		if(mine.isFlagged()) {
+			return mine;
+		}
+		if(mine.isOpen) {
+			if(mine.isBomb) {
+				mine.setText("X");
+				mine.setBackground(Color.RED);
+				mine.setOpaque(true);
+				mine.setBorderPainted(false);
+			}  else if(mine.getBombTouchCount() > 0) {
+				mine.setText("" + mine.bombTouchCount);
+				mine.setBackground(Color.WHITE);
+				mine.setOpaque(true);
+				mine.setBorderPainted(false);
+			} else {
+				mine.setText("");
+				mine.setBackground(Color.WHITE);
+				mine.setOpaque(true);
+				mine.setBorderPainted(false);
+			}
 		}
 		return mine;
 	}
