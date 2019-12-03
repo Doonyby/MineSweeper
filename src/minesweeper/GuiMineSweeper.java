@@ -6,9 +6,12 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
+import javax.swing.Timer;
+
 import java.awt.Font;
 
 import javax.swing.ImageIcon;
@@ -19,6 +22,10 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JToggleButton;
 
 @SuppressWarnings("serial")
 public class GuiMineSweeper extends JFrame implements ActionListener{
@@ -28,6 +35,10 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 	private static JPanel displayPanel;
 	private static Board myBoard;
 	private JPanel displayPanel2;
+	private Timer time;
+	private JTextField Clock;
+	private JTextField Bombsleft;
+	private String mine; //??For Bomb count down
 
 	/**
 	 * Launch the application.
@@ -52,6 +63,39 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 		setTitle("Minesweeper");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 600);
+		setResizable(false);
+		
+	/**
+	 * Create the menu bar and add menu items
+	 */
+		{
+			JMenuBar menuBar = new JMenuBar();
+			setJMenuBar(menuBar);
+			{
+				JMenu mnGame = new JMenu("Game");
+				menuBar.add(mnGame);
+				{
+					JMenuItem mntmResetGame = new JMenuItem("Reset Game");
+					mnGame.add(mntmResetGame);
+				}
+			}
+			{
+				JMenu mnDifficulty = new JMenu("Difficulty");
+				menuBar.add(mnDifficulty);
+				{
+					JMenuItem mntmEasy = new JMenuItem("Easy");
+					mnDifficulty.add(mntmEasy);
+				}
+				{
+					JMenuItem mntmMedium = new JMenuItem("Medium");
+					mnDifficulty.add(mntmMedium);
+				}
+				{
+					JMenuItem mntmHard = new JMenuItem("Hard");
+					mnDifficulty.add(mntmHard);
+				}
+			}
+		}
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -153,7 +197,11 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 	private JPanel createControlPanel() {
 		JPanel controlPanel = new JPanel();
 		
+		/**
+		 * Create Reset Button
+		 */
 		JButton btnResetGame = new JButton("Reset Game");
+		btnResetGame.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnResetGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("The game is reset"); //CHANGE for reseting the game
@@ -162,9 +210,50 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 				setupBoardDisplay(displayPanel2); //Adds all components back into displayPanel2 from new board array
 			}
 		});
+		{
+			/**
+			 * Create a Timer
+			 * @return
+			 */
+			time = new Timer(1000, new TimerListener());
+			
+			Clock = new JTextField("" + 0);
+			Clock.setHorizontalAlignment(SwingConstants.CENTER);
+			Clock.setEditable(false);
+			Clock.setFont(new Font("Tahoma", Font.BOLD, 19));
+			Clock.setForeground(Color.RED);
+			Clock.setBackground(Color.DARK_GRAY);
+			controlPanel.add(Clock);
+			Clock.setColumns(3);
+			
+			time.start();
+		}
 
 		controlPanel.add(btnResetGame);
+		{
+			/**
+			 * Create a bomb count
+			 */
+			Bombsleft = new JTextField("" + mine);
+			Bombsleft.setHorizontalAlignment(SwingConstants.CENTER);
+			Bombsleft.setFont(new Font("Tahoma", Font.BOLD, 19));
+			Bombsleft.setEditable(false);
+			Bombsleft.setBackground(Color.DARK_GRAY);
+			Bombsleft.setForeground(Color.RED);
+			Bombsleft.setText("bombs");
+			controlPanel.add(Bombsleft);
+			Bombsleft.setColumns(3);
+		}
 		return controlPanel;
+	}
+	
+	
+
+	private class TimerListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			if (Clock.getText().compareTo("999") < 0)
+				Clock.setText((Integer.parseInt(Clock.getText()) + 1) + "");
+		}
 	}
 
 	private JLabel createLblTitle() {
