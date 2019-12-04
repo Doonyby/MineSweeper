@@ -140,8 +140,8 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 						mine.setFlagged(!mine.isFlagged());
 					} else {
 						myBoard.onBoardChange(mine);
+						checkBoardUiChanges();
 					}
-					evaluateMineUi(mine);
 				}
 			});
 		}
@@ -155,30 +155,33 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 	 */
 	//add post-click styles here
 	private Mine evaluateMineUi(Mine mine) {
-		if (mine.isFlagged()) {
-			//mine.setText("F");
-			//mine.setBackground(Color.YELLOW);
-			mine.setIcon(new ImageIcon(this.getClass().getResource("/Images/redflag.png")));
-			mine.setOpaque(true);
-			mine.setBorderPainted(false);
-		} else if(mine.isBomb) {
-			//mine.setText("X");
-			mine.setBackground(Color.RED);
-			mine.setIcon(new ImageIcon(this.getClass().getResource("/Images/bomb.png")));
-			mine.setOpaque(true);
-			mine.setBorderPainted(false);
-		}  else if(mine.getBombTouchCount() > 0) {
-			mine.setText("" + mine.bombTouchCount);
-			mine.setBackground(Color.WHITE);
-			mine.setOpaque(true);
-			mine.setBorderPainted(false);
-		} else {
-			mine.setText("");
-			mine.setBackground(Color.WHITE);
-			mine.setOpaque(true);
-			mine.setBorderPainted(false);
+		if(mine.isOpen) {
+			if (mine.isFlagged()) {
+				//mine.setText("F");
+				//mine.setBackground(Color.YELLOW);
+				mine.setIcon(new ImageIcon(this.getClass().getResource("/Images/redflag.png")));
+				mine.setOpaque(true);
+				mine.setBorderPainted(false);
+			} else if(mine.isBomb) {
+				//mine.setText("X");
+				mine.setBackground(Color.RED);
+				mine.setIcon(new ImageIcon(this.getClass().getResource("/Images/bomb.png")));
+				mine.setOpaque(true);
+				mine.setBorderPainted(false);
+			}  else if(mine.getBombTouchCount() > 0) {
+				mine.setText("" + mine.bombTouchCount);
+				mine.setBackground(Color.WHITE);
+				mine.setOpaque(true);
+				mine.setBorderPainted(false);
+			} else {
+				mine.setText("");
+				mine.setBackground(Color.WHITE);
+				mine.setOpaque(true);
+				mine.setBorderPainted(false);
+			}
 		}
 		return mine;
+
 	}
 	
 	private void checkBoardUiChanges() {
