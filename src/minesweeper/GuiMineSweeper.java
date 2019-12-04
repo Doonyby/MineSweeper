@@ -34,7 +34,7 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 	private Timer time;
 	private JTextField Clock;
 	private JTextField Bombsleft;
-	private int bombsOnField; //??For Bomb count down
+	private int bombsOnField; 
 	private boolean youWon = false;
 	private boolean youLost = false;
 
@@ -65,7 +65,7 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 
 		
 	/**
-	 * Created the menu bar and add menu items with Windowbuilder
+	 * Created the menu bar and add menu items
 	 */
 		{
 			JMenuBar menuBar = new JMenuBar();
@@ -256,6 +256,8 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 		}
 
 		controlPanel.add(btnResetGame);
+		
+		
 		{
 			/**
 			 * Create a bomb count
@@ -267,7 +269,7 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 			Bombsleft.setBackground(Color.DARK_GRAY);
 			Bombsleft.setForeground(Color.RED);
 			Bombsleft.setText("bombs: " + bombsOnField);
-			Bombsleft.setColumns(9);
+			Bombsleft.setColumns(6);
 			controlPanel.add(Bombsleft);
 		}
 		return controlPanel;
