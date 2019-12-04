@@ -10,6 +10,8 @@ public class Board extends Game {
 	ArrayList<Mine> mineArr = new ArrayList<Mine>();
 	int difficultyNumber;
 	int numberOfBombs;
+	boolean youWon = false;
+	boolean youLost = false;
 	
 	public Board(Difficulty d) {
 		super(d);
@@ -227,6 +229,7 @@ public class Board extends Game {
 					mineArr.get(j).setFlagged(true);
 				};
 			} 
+			youWon = true;
 		}
 	}
 	
@@ -236,7 +239,8 @@ public class Board extends Game {
 			if(mineArr.get(j).isBomb) {
 				mineArr.get(j).setOpen(true);
 			};
-		} 
+		}
+		youLost = true;
 	}
 	
 	public void startGame() {

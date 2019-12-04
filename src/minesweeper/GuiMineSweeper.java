@@ -40,6 +40,8 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 	private JTextField Clock;
 	private JTextField Bombsleft;
 	private int bombsOnField; //??For Bomb count down
+	private boolean youWon = false;
+	private boolean youLost = false;
 
 	/**
 	 * Launch the application.
@@ -192,8 +194,15 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 				mine.setBorderPainted(false);
 			}
 		}
+		if(myBoard.youLost) {
+			youLost = youLost;
+			time.stop();
+		}
+		if(myBoard.youWon) {
+			youWon = youWon;
+			time.stop();
+		}
 		return mine;
-
 	}
 	
 	private void checkBoardUiChanges() {
