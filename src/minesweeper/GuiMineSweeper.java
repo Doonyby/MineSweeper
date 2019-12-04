@@ -3,7 +3,6 @@ package minesweeper;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -11,10 +10,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.Timer;
-
 import java.awt.Font;
-
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridLayout;
@@ -26,7 +22,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JToggleButton;
 
 @SuppressWarnings("serial")
 public class GuiMineSweeper extends JFrame implements ActionListener{
@@ -127,7 +122,7 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 	 */
 	private JPanel setupBoardDisplay(JPanel whatever) {
 		displayPanel2.setBorder(new EmptyBorder(5, 5, 5, 5));
-		displayPanel2.setLayout(new GridLayout(10, 10, 0, 0)); //grid size
+		displayPanel2.setLayout(new GridLayout(10, 10, 2, 2)); //grid size
 
 		//Create 100 buttons
 		for (int j = 0; j < myBoard.mineArr.size(); j++) {
