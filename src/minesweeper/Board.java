@@ -34,7 +34,6 @@ public class Board extends Game {
 	}
 	
 	public void buildBoard() {
-		System.out.println("Building board");
 		mineArr.clear();
 		for(int i=0; i < difficultyNumber; i++) {
 			mineArr.add(new Mine(i, false, 0, false, false));
@@ -105,7 +104,6 @@ public class Board extends Game {
 	}
 	
 	public void plantBombs() {
-		System.out.println("Planting bombs");
 		for(int i = 0; i < numberOfBombs; i++) {
 			int r;
 			do {
@@ -116,43 +114,41 @@ public class Board extends Game {
 	}
 	
 	public void evaluateBoard(Mine mine) {
-		mine.setOpen(true);
-		mineArr.get(mine.getId() + 1).setOpen(true);
-		System.out.println("Evaluating board");
-		if(mine.isOpen || mine.isBomb) {
+		if(mine.isOpen) {
 			return;
 		}
+		
+		mine.setOpen(true);
 		
 		int i = mine.getId();
 		if(i % 10 == 0) {
 			if((i+1) < difficultyNumber) {
 				if(mineArr.get(i+1).getBombTouchCount() == 0) {
-					mineArr.get(i+1).setOpen(true);
 					evaluateBoard(mineArr.get(i+1));
 				} else if(mineArr.get(i+1).getBombTouchCount() > 0) {
 					mineArr.get(i+1).setOpen(true);
 				}
 			}
+			
 			if((i+10) < difficultyNumber) {
 				if(mineArr.get(i+10).getBombTouchCount() == 0) {
-					mineArr.get(i+10).setOpen(true);
 					evaluateBoard(mineArr.get(i+10));
 				} else if(mineArr.get(i+10).getBombTouchCount() > 0) {
 					mineArr.get(i+10).setOpen(true);
 				}
 			}
+			
 			if((i-10) >= 0) {
 				if(mineArr.get(i-10).getBombTouchCount() == 0) {
-					mineArr.get(i-10).setOpen(true);
 					evaluateBoard(mineArr.get(i-10));
 				} else if(mineArr.get(i-10).getBombTouchCount() > 0) {
 					mineArr.get(i-10).setOpen(true);
 				}
 			}
-		} else if(i % 10 == 9) {
+		} 
+		else if(i % 10 == 9) {
 			if((i-1) >= 0) {
 				if(mineArr.get(i-1).getBombTouchCount() == 0) {
-					mineArr.get(i-1).setOpen(true);
 					evaluateBoard(mineArr.get(i-1));
 				} else if(mineArr.get(i-1).getBombTouchCount() > 0) {
 					mineArr.get(i-1).setOpen(true);
@@ -160,7 +156,6 @@ public class Board extends Game {
 			}
 			if((i+10) < difficultyNumber) {
 				if(mineArr.get(i+10).getBombTouchCount() == 0) {
-					mineArr.get(i+10).setOpen(true);
 					evaluateBoard(mineArr.get(i+10));
 				} else if(mineArr.get(i+10).getBombTouchCount() > 0) {
 					mineArr.get(i+10).setOpen(true);
@@ -168,7 +163,6 @@ public class Board extends Game {
 			}
 			if((i-10) >= 0) {
 				if(mineArr.get(i-10).getBombTouchCount() == 0) {
-					mineArr.get(i-10).setOpen(true);
 					evaluateBoard(mineArr.get(i-10));
 				} else if(mineArr.get(i-10).getBombTouchCount() > 0) {
 					mineArr.get(i-10).setOpen(true);
@@ -177,7 +171,6 @@ public class Board extends Game {
 		} else {
 			if((i+1) < difficultyNumber) {
 				if(mineArr.get(i+1).getBombTouchCount() == 0) {
-					mineArr.get(i+1).setOpen(true);
 					evaluateBoard(mineArr.get(i+1));
 				} else if(mineArr.get(i+1).getBombTouchCount() > 0) {
 					mineArr.get(i+1).setOpen(true);
@@ -185,7 +178,6 @@ public class Board extends Game {
 			}
 			if((i-1) >= 0) {
 				if(mineArr.get(i-1).getBombTouchCount() == 0) {
-					mineArr.get(i-1).setOpen(true);
 					evaluateBoard(mineArr.get(i-1));
 				} else if(mineArr.get(i-1).getBombTouchCount() > 0) {
 					mineArr.get(i-1).setOpen(true);
@@ -193,7 +185,6 @@ public class Board extends Game {
 			}
 			if((i+10) < difficultyNumber) {
 				if(mineArr.get(i+10).getBombTouchCount() == 0) {
-					mineArr.get(i+10).setOpen(true);
 					evaluateBoard(mineArr.get(i+10));
 				} else if(mineArr.get(i+10).getBombTouchCount() > 0) {
 					mineArr.get(i+10).setOpen(true);
@@ -201,7 +192,6 @@ public class Board extends Game {
 			}
 			if((i-10) >= 0) {
 				if(mineArr.get(i-10).getBombTouchCount() == 0) {
-					mineArr.get(i-10).setOpen(true);
 					evaluateBoard(mineArr.get(i-10));
 				} else if(mineArr.get(i-10).getBombTouchCount() > 0) {
 					mineArr.get(i-10).setOpen(true);
@@ -211,18 +201,42 @@ public class Board extends Game {
 	}
 	
 	public void onBoardChange(Mine mine) {
-		System.out.println("Changing board");
-		if(mine.isBomb) {
-			System.out.println("You lose");
+		if(mine.isOpen) {
+			return;
+		} else if(mine.isBomb) {
+			openBombs();
 		} else if(mine.getBombTouchCount() > 0) {
 			mine.setOpen(true);
-			System.out.println("Should be opening mine to see number");
+			checkWin();
 		} else if(mine.getBombTouchCount() == 0) {
-			System.out.println("Evaluating board");
 			this.evaluateBoard(mine);
-		} else if(mine.isOpen) {
-			System.out.println("Already chose this mine....");
+		} 
+	}
+	
+	public void checkWin() {
+		boolean somethingIsStillClosed = false;
+		for (int j=0; j < mineArr.size(); j++) {
+			if(!mineArr.get(j).isOpen && !mineArr.get(j).isBomb) {
+				somethingIsStillClosed = true;
+			};
+		} 
+		if(!somethingIsStillClosed) {
+			System.out.println("You win!!!!");
+			for (int j=0; j < mineArr.size(); j++) {
+				if(mineArr.get(j).isBomb) {
+					mineArr.get(j).setFlagged(true);
+				};
+			} 
 		}
+	}
+	
+	public void openBombs() {
+		System.out.println("You lose");
+		for (int j=0; j < mineArr.size(); j++) {
+			if(mineArr.get(j).isBomb) {
+				mineArr.get(j).setOpen(true);
+			};
+		} 
 	}
 	
 	public void startGame() {
