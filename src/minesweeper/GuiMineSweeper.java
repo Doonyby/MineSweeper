@@ -192,10 +192,12 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 		if(myBoard.youLost) {
 			youLost = youLost;
 			time.stop();
+			Bombsleft.setText("Bombs: " + 0);
 		}
 		if(myBoard.youWon) {
 			youWon = youWon;
 			time.stop();
+			Bombsleft.setText("Bombs: " + 0);
 		}
 		return mine;
 	}
