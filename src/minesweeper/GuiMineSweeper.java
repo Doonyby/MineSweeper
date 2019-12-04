@@ -39,7 +39,7 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 	private Timer time;
 	private JTextField Clock;
 	private JTextField Bombsleft;
-	private String mine; //??For Bomb count down
+	private int bombsOnField; //??For Bomb count down
 
 	/**
 	 * Launch the application.
@@ -106,6 +106,7 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 		
 		System.out.println(myBoard);
 		myBoard.buildBoard();
+		bombsOnField = myBoard.numberOfBombs;
 		
 		JLabel lblMinesweeper = createTitle();
 		contentPane.add(lblMinesweeper, BorderLayout.NORTH);
@@ -125,11 +126,10 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 	private JPanel setupBoardDisplay(JPanel whatever) {
 		displayPanel2.setBorder(new EmptyBorder(5, 5, 5, 5));
 		displayPanel2.setLayout(new GridLayout(10, 10, 0, 0)); //grid size
-		
+
 		//Create 100 buttons
 		for (int j = 0; j < myBoard.mineArr.size(); j++) {
 			Mine mine = myBoard.mineArr.get(j);
-			System.out.println(mine);
 			whatever.add(mine);
 			
 			//add pre-click styles here
@@ -138,6 +138,9 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 				public void mouseClicked(MouseEvent e) {
 					if(e.getButton() == 3) {
 						mine.setFlagged(!mine.isFlagged());
+						bombsOnField = (mine.isFlagged() ? bombsOnField - 1 : bombsOnField + 1);
+						Bombsleft.setText("Bombs: " + bombsOnField);
+						changeFlag(mine);
 					} else {
 						myBoard.onBoardChange(mine);
 						checkBoardUiChanges();
@@ -148,6 +151,19 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 		return whatever;
 	}
 	
+	private Mine changeFlag(Mine mine) {
+		if (mine.isFlagged()) {
+			mine.setIcon(new ImageIcon(this.getClass().getResource("/Images/redflag.png")));
+			mine.setOpaque(true);
+			mine.setBorderPainted(false);
+		} else {
+			mine.setIcon(null);
+			mine.setOpaque(false);
+			mine.setBorderPainted(true);
+		}
+		return mine;
+	}
+	
 	/**
 	 * Evaluate the board/setup the game play
 	 * @param mine
@@ -155,15 +171,11 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 	 */
 	//add post-click styles here
 	private Mine evaluateMineUi(Mine mine) {
+		if (mine.isFlagged()) {
+			changeFlag(mine);
+		}
 		if(mine.isOpen) {
-			if (mine.isFlagged()) {
-				//mine.setText("F");
-				//mine.setBackground(Color.YELLOW);
-				mine.setIcon(new ImageIcon(this.getClass().getResource("/Images/redflag.png")));
-				mine.setOpaque(true);
-				mine.setBorderPainted(false);
-			} else if(mine.isBomb) {
-				//mine.setText("X");
+			if(mine.isBomb) {
 				mine.setBackground(Color.RED);
 				mine.setIcon(new ImageIcon(this.getClass().getResource("/Images/bomb.png")));
 				mine.setOpaque(true);
@@ -244,15 +256,15 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 			/**
 			 * Create a bomb count
 			 */
-			Bombsleft = new JTextField("" + mine);
+			Bombsleft = new JTextField("");
 			Bombsleft.setHorizontalAlignment(SwingConstants.CENTER);
 			Bombsleft.setFont(new Font("Tahoma", Font.BOLD, 19));
 			Bombsleft.setEditable(false);
 			Bombsleft.setBackground(Color.DARK_GRAY);
 			Bombsleft.setForeground(Color.RED);
-			Bombsleft.setText("bombs");
+			Bombsleft.setText("bombs: " + bombsOnField);
+			Bombsleft.setColumns(9);
 			controlPanel.add(Bombsleft);
-			Bombsleft.setColumns(3);
 		}
 		return controlPanel;
 	}

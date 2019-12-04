@@ -34,7 +34,6 @@ public class Board extends Game {
 	}
 	
 	public void buildBoard() {
-		System.out.println("Building board");
 		mineArr.clear();
 		for(int i=0; i < difficultyNumber; i++) {
 			mineArr.add(new Mine(i, false, 0, false, false));
@@ -105,7 +104,6 @@ public class Board extends Game {
 	}
 	
 	public void plantBombs() {
-		System.out.println("Planting bombs");
 		for(int i = 0; i < numberOfBombs; i++) {
 			int r;
 			do {
@@ -116,7 +114,6 @@ public class Board extends Game {
 	}
 	
 	public void evaluateBoard(Mine mine) {
-		System.out.println("Evaluating board");
 		if(mine.isOpen) {
 			return;
 		}
@@ -125,8 +122,6 @@ public class Board extends Game {
 		
 		int i = mine.getId();
 		if(i % 10 == 0) {
-			System.out.println("Executing i%10=0 logic");
-
 			if((i+1) < difficultyNumber) {
 				if(mineArr.get(i+1).getBombTouchCount() == 0) {
 					evaluateBoard(mineArr.get(i+1));
@@ -152,7 +147,6 @@ public class Board extends Game {
 			}
 		} 
 		else if(i % 10 == 9) {
-			System.out.println("Executing i%10=9 logic");
 			if((i-1) >= 0) {
 				if(mineArr.get(i-1).getBombTouchCount() == 0) {
 					evaluateBoard(mineArr.get(i-1));
@@ -207,17 +201,41 @@ public class Board extends Game {
 	}
 	
 	public void onBoardChange(Mine mine) {
-		System.out.println("Changing board");
 		if(mine.isOpen) {
-			System.out.println("Already chose this mine....");
+			return;
 		} else if(mine.isBomb) {
-			System.out.println("You lose");
+			openBombs();
 		} else if(mine.getBombTouchCount() > 0) {
 			mine.setOpen(true);
-			System.out.println("Should be opening mine to see number");
+			checkWin();
 		} else if(mine.getBombTouchCount() == 0) {
-			System.out.println("Evaluating board");
 			this.evaluateBoard(mine);
+		} 
+	}
+	
+	public void checkWin() {
+		boolean somethingIsStillClosed = false;
+		for (int j=0; j < mineArr.size(); j++) {
+			if(!mineArr.get(j).isOpen && !mineArr.get(j).isBomb) {
+				somethingIsStillClosed = true;
+			};
+		} 
+		if(!somethingIsStillClosed) {
+			System.out.println("You win!!!!");
+			for (int j=0; j < mineArr.size(); j++) {
+				if(mineArr.get(j).isBomb) {
+					mineArr.get(j).setFlagged(true);
+				};
+			} 
+		}
+	}
+	
+	public void openBombs() {
+		System.out.println("You lose");
+		for (int j=0; j < mineArr.size(); j++) {
+			if(mineArr.get(j).isBomb) {
+				mineArr.get(j).setOpen(true);
+			};
 		} 
 	}
 	
