@@ -143,7 +143,6 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 						myBoard.onBoardChange(mine);
 						checkBoardUiChanges();
 					}
-					evaluateMineUi(mine);
 				}
 			});
 		}
@@ -162,18 +161,15 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 	}
 	
 	private void checkBoardUiChanges() {
-		for (int j = 0; j < myBoard.mineArr.size(); j++) {
-			System.out.println(myBoard.mineArr.get(j));
+		for (int j=0; j < myBoard.mineArr.size(); j++) {
 			evaluateMineUi(myBoard.mineArr.get(j));
 		} 
 	}
 	
 	//add post-click styles here
 	private Mine evaluateMineUi(Mine mine) {
-		if(mine.isFlagged()) {
-			return mine;
-		}
 		if(mine.isOpen) {
+			System.out.println("Mine " + mine.getId() + " is open");
 			if(mine.isBomb) {
 				mine.setText("X");
 				mine.setBackground(Color.RED);

@@ -116,43 +116,45 @@ public class Board extends Game {
 	}
 	
 	public void evaluateBoard(Mine mine) {
-		mine.setOpen(true);
-		mineArr.get(mine.getId() + 1).setOpen(true);
 		System.out.println("Evaluating board");
-		if(mine.isOpen || mine.isBomb) {
+		if(mine.isOpen) {
 			return;
 		}
 		
+		mine.setOpen(true);
+		
 		int i = mine.getId();
 		if(i % 10 == 0) {
+			System.out.println("Executing i%10=0 logic");
+
 			if((i+1) < difficultyNumber) {
 				if(mineArr.get(i+1).getBombTouchCount() == 0) {
-					mineArr.get(i+1).setOpen(true);
 					evaluateBoard(mineArr.get(i+1));
 				} else if(mineArr.get(i+1).getBombTouchCount() > 0) {
 					mineArr.get(i+1).setOpen(true);
 				}
 			}
+			
 			if((i+10) < difficultyNumber) {
 				if(mineArr.get(i+10).getBombTouchCount() == 0) {
-					mineArr.get(i+10).setOpen(true);
 					evaluateBoard(mineArr.get(i+10));
 				} else if(mineArr.get(i+10).getBombTouchCount() > 0) {
 					mineArr.get(i+10).setOpen(true);
 				}
 			}
+			
 			if((i-10) >= 0) {
 				if(mineArr.get(i-10).getBombTouchCount() == 0) {
-					mineArr.get(i-10).setOpen(true);
 					evaluateBoard(mineArr.get(i-10));
 				} else if(mineArr.get(i-10).getBombTouchCount() > 0) {
 					mineArr.get(i-10).setOpen(true);
 				}
 			}
-		} else if(i % 10 == 9) {
+		} 
+		else if(i % 10 == 9) {
+			System.out.println("Executing i%10=9 logic");
 			if((i-1) >= 0) {
 				if(mineArr.get(i-1).getBombTouchCount() == 0) {
-					mineArr.get(i-1).setOpen(true);
 					evaluateBoard(mineArr.get(i-1));
 				} else if(mineArr.get(i-1).getBombTouchCount() > 0) {
 					mineArr.get(i-1).setOpen(true);
@@ -160,7 +162,6 @@ public class Board extends Game {
 			}
 			if((i+10) < difficultyNumber) {
 				if(mineArr.get(i+10).getBombTouchCount() == 0) {
-					mineArr.get(i+10).setOpen(true);
 					evaluateBoard(mineArr.get(i+10));
 				} else if(mineArr.get(i+10).getBombTouchCount() > 0) {
 					mineArr.get(i+10).setOpen(true);
@@ -168,7 +169,6 @@ public class Board extends Game {
 			}
 			if((i-10) >= 0) {
 				if(mineArr.get(i-10).getBombTouchCount() == 0) {
-					mineArr.get(i-10).setOpen(true);
 					evaluateBoard(mineArr.get(i-10));
 				} else if(mineArr.get(i-10).getBombTouchCount() > 0) {
 					mineArr.get(i-10).setOpen(true);
@@ -177,7 +177,6 @@ public class Board extends Game {
 		} else {
 			if((i+1) < difficultyNumber) {
 				if(mineArr.get(i+1).getBombTouchCount() == 0) {
-					mineArr.get(i+1).setOpen(true);
 					evaluateBoard(mineArr.get(i+1));
 				} else if(mineArr.get(i+1).getBombTouchCount() > 0) {
 					mineArr.get(i+1).setOpen(true);
@@ -185,7 +184,6 @@ public class Board extends Game {
 			}
 			if((i-1) >= 0) {
 				if(mineArr.get(i-1).getBombTouchCount() == 0) {
-					mineArr.get(i-1).setOpen(true);
 					evaluateBoard(mineArr.get(i-1));
 				} else if(mineArr.get(i-1).getBombTouchCount() > 0) {
 					mineArr.get(i-1).setOpen(true);
@@ -193,7 +191,6 @@ public class Board extends Game {
 			}
 			if((i+10) < difficultyNumber) {
 				if(mineArr.get(i+10).getBombTouchCount() == 0) {
-					mineArr.get(i+10).setOpen(true);
 					evaluateBoard(mineArr.get(i+10));
 				} else if(mineArr.get(i+10).getBombTouchCount() > 0) {
 					mineArr.get(i+10).setOpen(true);
@@ -201,7 +198,6 @@ public class Board extends Game {
 			}
 			if((i-10) >= 0) {
 				if(mineArr.get(i-10).getBombTouchCount() == 0) {
-					mineArr.get(i-10).setOpen(true);
 					evaluateBoard(mineArr.get(i-10));
 				} else if(mineArr.get(i-10).getBombTouchCount() > 0) {
 					mineArr.get(i-10).setOpen(true);
@@ -212,7 +208,9 @@ public class Board extends Game {
 	
 	public void onBoardChange(Mine mine) {
 		System.out.println("Changing board");
-		if(mine.isBomb) {
+		if(mine.isOpen) {
+			System.out.println("Already chose this mine....");
+		} else if(mine.isBomb) {
 			System.out.println("You lose");
 		} else if(mine.getBombTouchCount() > 0) {
 			mine.setOpen(true);
@@ -220,9 +218,7 @@ public class Board extends Game {
 		} else if(mine.getBombTouchCount() == 0) {
 			System.out.println("Evaluating board");
 			this.evaluateBoard(mine);
-		} else if(mine.isOpen) {
-			System.out.println("Already chose this mine....");
-		}
+		} 
 	}
 	
 	public void startGame() {
