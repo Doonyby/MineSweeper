@@ -14,6 +14,7 @@ import javax.swing.Timer;
 
 import java.awt.Font;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import java.awt.GridLayout;
@@ -64,9 +65,10 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 550, 600);
 		setResizable(false);
+
 		
 	/**
-	 * Create the menu bar and add menu items
+	 * Created the menu bar and add menu items with Windowbuilder
 	 */
 		{
 			JMenuBar menuBar = new JMenuBar();
@@ -105,7 +107,7 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 		System.out.println(myBoard);
 		myBoard.buildBoard();
 		
-		JLabel lblMinesweeper = createLblTitle();
+		JLabel lblMinesweeper = createTitle();
 		contentPane.add(lblMinesweeper, BorderLayout.NORTH);
 		
 		JPanel controlPanel = createControlPanel();
@@ -114,14 +116,12 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 		displayPanel = createDisplayPanel();
 		contentPane.add(displayPanel, BorderLayout.CENTER);
 	}
-
-	private JPanel createDisplayPanel() {
-		displayPanel2 = new JPanel();
-		setupBoardDisplay(displayPanel2);
-		
-		return displayPanel2;
-	}
 	
+	/**
+	 * Create grid of buttons/bombs etc
+	 * @param whatever
+	 * @return
+	 */
 	private JPanel setupBoardDisplay(JPanel whatever) {
 		displayPanel2.setBorder(new EmptyBorder(5, 5, 5, 5));
 		displayPanel2.setLayout(new GridLayout(10, 10, 0, 0)); //grid size
@@ -131,33 +131,54 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 			Mine mine = myBoard.mineArr.get(j);
 			System.out.println(mine);
 			whatever.add(mine);
-			//add pre-click styles here
 			
+			//add pre-click styles here
 			mine.addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					if(e.getButton() == 3) {
 						mine.setFlagged(!mine.isFlagged());
-						flagMine(mine);
 					} else {
 						myBoard.onBoardChange(mine);
-						checkBoardUiChanges();
 					}
+					evaluateMineUi(mine);
 				}
 			});
 		}
 		return whatever;
 	}
 	
-	private void flagMine(Mine mine) {
-		if(mine.isFlagged) {
-			mine.setText("F");
-			mine.setBackground(Color.YELLOW);
+	/**
+	 * Evaluate the board/setup the game play
+	 * @param mine
+	 * @return
+	 */
+	//add post-click styles here
+	private Mine evaluateMineUi(Mine mine) {
+		if (mine.isFlagged()) {
+			//mine.setText("F");
+			//mine.setBackground(Color.YELLOW);
+			mine.setIcon(new ImageIcon(this.getClass().getResource("/Images/redflag.png")));
+			mine.setOpaque(true);
+			mine.setBorderPainted(false);
+		} else if(mine.isBomb) {
+			//mine.setText("X");
+			mine.setBackground(Color.RED);
+			mine.setIcon(new ImageIcon(this.getClass().getResource("/Images/bomb.png")));
+			mine.setOpaque(true);
+			mine.setBorderPainted(false);
+		}  else if(mine.getBombTouchCount() > 0) {
+			mine.setText("" + mine.bombTouchCount);
+			mine.setBackground(Color.WHITE);
 			mine.setOpaque(true);
 			mine.setBorderPainted(false);
 		} else {
-			mine.removeAll();
+			mine.setText("");
+			mine.setBackground(Color.WHITE);
+			mine.setOpaque(true);
+			mine.setBorderPainted(false);
 		}
+		return mine;
 	}
 	
 	private void checkBoardUiChanges() {
@@ -165,29 +186,19 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 			evaluateMineUi(myBoard.mineArr.get(j));
 		} 
 	}
+
+	private JLabel createTitle() {
+		JLabel gameTitle = new JLabel("Minesweeper");
+		gameTitle.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		gameTitle.setHorizontalAlignment(SwingConstants.CENTER);
+		return gameTitle;
+	}
 	
-	//add post-click styles here
-	private Mine evaluateMineUi(Mine mine) {
-		if(mine.isOpen) {
-			System.out.println("Mine " + mine.getId() + " is open");
-			if(mine.isBomb) {
-				mine.setText("X");
-				mine.setBackground(Color.RED);
-				mine.setOpaque(true);
-				mine.setBorderPainted(false);
-			}  else if(mine.getBombTouchCount() > 0) {
-				mine.setText("" + mine.bombTouchCount);
-				mine.setBackground(Color.WHITE);
-				mine.setOpaque(true);
-				mine.setBorderPainted(false);
-			} else {
-				mine.setText("");
-				mine.setBackground(Color.WHITE);
-				mine.setOpaque(true);
-				mine.setBorderPainted(false);
-			}
-		}
-		return mine;
+	private JPanel createDisplayPanel() {
+		displayPanel2 = new JPanel();
+		setupBoardDisplay(displayPanel2);
+		
+		return displayPanel2;
 	}
 
 	private JPanel createControlPanel() {
@@ -250,13 +261,6 @@ public class GuiMineSweeper extends JFrame implements ActionListener{
 			if (Clock.getText().compareTo("999") < 0)
 				Clock.setText((Integer.parseInt(Clock.getText()) + 1) + "");
 		}
-	}
-
-	private JLabel createLblTitle() {
-		JLabel lblMinesweeper = new JLabel("Minesweeper");
-		lblMinesweeper.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblMinesweeper.setHorizontalAlignment(SwingConstants.CENTER);
-		return lblMinesweeper;
 	}
 
 	@Override
